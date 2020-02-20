@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Databank | Item List</title>
+</head>
+<body>
+<h1>Items</h1>
+{% for item in items %}
+    <p class="item">
+        <b>Name:</b> {{ item.name }}
+        <b>Description:</b> {{ item.description }}
+        <b>Source: </b> {{ item.source }}
+        <b>Created: </b> {{ item.created_at }}
+    </p>
+{% endfor %}
+</body>
+</html>

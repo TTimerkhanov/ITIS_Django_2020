@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Databank | {{ item.name }}</title>
+</head>
+<body>
+    <h1>{{ item.name }}</h1>
+    <p>{{ item.description }}</p>
+    <p>Source: {{ item.source }}</p>
+    <p>Created: {{ item.created_at|date }}</p>
+    <p>Created by: {{ item.created_by.username }}</p>
+    <br>
+    <p>{{ sample }}</p>
+</body>
+</html>

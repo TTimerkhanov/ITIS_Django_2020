@@ -1,18 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Databank | Item List</title>
-</head>
-<body>
-<h1>Items</h1>
-{% for item in items %}
-    <p class="item">
-        <b>Name:</b> {{ item.name }}
-        <b>Description:</b> {{ item.description }}
-        <b>Source: </b> {{ item.source }}
-        <b>Created: </b> {{ item.created_at }}
-    </p>
-{% endfor %}
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+
+{% block custom_css %}
+    <link rel="stylesheet"
+          href="{% static 'storage/css/main.css' %}">
+{% endblock %}
+
+{% block head_title %}
+    Databank | Item List
+{% endblock %}
+
+{% block content %}
+    <div class="header">
+        <img src="{% static "storage/img/1973341.svg" %}" alt="Items Logo">
+        <h1>Items</h1>
+    </div>
+
+
+    <div class='row'>
+        {% for item in items %}
+            <div class='col-12 col-md-10 mb-3 mx-auto'>
+                <div class='card border border-warning text-dark'>
+                    <div class='card-body'>
+                        <h5 class='card-title'>{{ item.name }}</h5>
+                        {% if item.photo %}
+                            <p class="image"><img src="{{ item.photo.url }}" alt=""></p>
+                        {% endif %}
+                        <p class='card-text'>
+                            <small class='text-muted'>{{ item.created_at }}</small>
+                            {{ item.description|linebreaks }}
+                            <br>
+                            <b>Source: </b> {{ item.source }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
+

@@ -135,3 +135,6 @@ dmypy.json
 
 # Jetbrains IDEs
 .idea/
+
+databank/static
+databank/media

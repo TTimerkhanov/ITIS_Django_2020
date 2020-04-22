@@ -15,3 +15,15 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
+
+app.conf.beat_schedule = {
+    'send_mail_every_10_sec': {
+        'task': 'test_app.tasks.send_mail_task',
+        'schedule': 10,
+        'kwargs': {
+            'message': "Hello from beat",
+            'recipients': ['lapki@yahoo.com'],
+            'subject': 'Scheduled message for you!'
+        }
+    }
+}

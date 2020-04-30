@@ -1,0 +1,53 @@
+version: '3'
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
+services:
+  django: &django
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    image: market_science_local
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    env_file:
+      - ./.envs/.django
+      - ./.envs/.postgres
+    ports:
+      - "8000:8000"
+    command: bash ./docker/django/start.sh
+
+
+  postgres:
+    image: postgres:12.1
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.postgres
+
+  redis:
+    image: redis:latest
+
+  celeryworker:
+    <<: *django
+    image: my_project_celeryworker
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: bash ./docker/django/celery/worker/start.sh
+
+  celerybeat:
+    <<: *django
+    image: my_project_ccelerybeat
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: bash ./docker/django/celery/beat/start.sh

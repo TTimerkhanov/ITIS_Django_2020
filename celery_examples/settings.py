@@ -12,6 +12,19 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+import environ
+
+ROOT_DIR = (
+    environ.Path(__file__) - 1
+)
+
+env = environ.Env()
+
+READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
+if READ_DOT_ENV_FILE:
+    # OS environment variables take precedence over variables from .env
+    env.read_env(str(ROOT_DIR.path(".env")))
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -70,15 +83,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'celery_examples.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# DATABASES
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
+# DATABASE_URL is generated and set in entrypoint
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    "default": env.db("DATABASE_URL", default="postgres://user:password@localhost:5432/db")
 }
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -120,7 +133,7 @@ STATIC_URL = '/static/'
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-timezone
 CELERY_TIMEZONE = TIME_ZONE
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-broker_url
-CELERY_BROKER_URL = "amqp://"
+CELERY_BROKER_URL = env.get_value("CELERY_BROKER_URL", default='redis://redis:6379')
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-result_backend
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-accept_content

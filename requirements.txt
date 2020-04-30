@@ -5,3 +5,7 @@ flower==0.9.4  # https://github.com/mher/flower
 
 # Django
 django==3.0.5  # pyup: < 3.1  # https://www.djangoproject.com/
+django-environ==0.4.5  # https://github.com/joke2k/django-environ
+
+redis==3.4.1
+psycopg2==2.8.5 --no-binary psycopg2  # https://github.com/psycopg/psycopg2

@@ -2,7 +2,6 @@ version: '3'
 
 volumes:
   local_postgres_data: {}
-  local_postgres_data_backups: {}
 
 services:
   django: &django
@@ -10,7 +9,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/django/Dockerfile
-    image: market_science_local
+    image: itis-django
     depends_on:
       - postgres
     volumes:
@@ -27,7 +26,6 @@ services:
     image: postgres:12.1
     volumes:
       - local_postgres_data:/var/lib/postgresql/data
-      - local_postgres_data_backups:/backups
     env_file:
       - ./.envs/.postgres
 

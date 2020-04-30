@@ -37,7 +37,7 @@ SECRET_KEY = '!a2-((m15iv4%g1yl^)zen4l2l#y9x@-z94kbcdbznow^0qls9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 # Application definition
 
@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'celery_examples.wsgi.application'
 
 # DATABASE_URL is generated and set in entrypoint
 DATABASES = {
-    "default": env.db("DATABASE_URL", default="postgres://user:password@localhost:5432/db")
+    "default": env.db("DATABASE_URL", default="postgres://user:password@localhost:5432/db"),
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
@@ -133,7 +133,7 @@ STATIC_URL = '/static/'
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-timezone
 CELERY_TIMEZONE = TIME_ZONE
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-broker_url
-CELERY_BROKER_URL = env.get_value("CELERY_BROKER_URL", default='redis://redis:6379')
+CELERY_BROKER_URL = 'redis://redis:6379'
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-result_backend
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-accept_content
